@@ -1,0 +1,32 @@
+services:
+  database:
+    image: "postgres:latest"
+    ports:
+      - 5432:5432
+    env_file:
+      - ./.env
+    networks:
+      - integracion-continua
+    volumes:
+      - ./data/:/var/lib/postgresql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend
+    env_file:
+      - ./.env
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - database
+    networks:
+      - integracion-continua
+
+networks:
+  integracion-continua:
+    driver: bridge
