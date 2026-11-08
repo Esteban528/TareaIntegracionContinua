@@ -1,6 +1,14 @@
 # API Tienda de Regalos
 
-CRUD de productos con Express y postgres
+CRUD de productos con Express y postgres, detrás de nginx como proxy inverso.
+
+## Arquitectura
+
+```
+cliente -> nginx (:8080) -> backend (:8080 interno) -> postgres (:5432)
+```
+
+Requiere Docker. nginx corre como contenedor con la configuración de `nginx/nginx.conf`. El backend no se publica al host y solo es accesible a través de nginx.
 
 ## Levantar
 
@@ -13,7 +21,6 @@ Para apagar:
 ```bash
 docker compose down
 ```
-
 
 ## Endpoints
 
@@ -60,11 +67,3 @@ Eliminar:
 ```bash
 curl -X DELETE localhost:8080/productos/1
 ```
-
-## Respuestas
-
-- `200` OK
-- `201` producto creado
-- `204` producto eliminado
-- `404` `{"error":"No encontrado"}`
-- `500` `{"error":"..."}`
