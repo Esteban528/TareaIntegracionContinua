@@ -67,3 +67,24 @@ Eliminar:
 ```bash
 curl -X DELETE localhost:8080/productos/1
 ```
+
+## Jenkins
+
+El pipeline está definido en `Jenkinsfile` y ejecuta: checkout, validación del compose, build de la imagen, verificación de sintaxis, despliegue con `docker compose` y smoke test contra nginx. Revisa cambios en `main` cada 5 minutos.
+
+Levantar Jenkins:
+
+```bash
+cd jenkins
+docker compose up --build -d
+```
+
+Queda disponible en `http://localhost:8081` (usuario `admin`, contraseña `admin`). El job `backend` se crea automáticamente.
+
+Variables opcionales:
+
+| Variable | Valor por defecto |
+|---|---|
+| `JENKINS_ADMIN_ID` | `admin` |
+| `JENKINS_ADMIN_PASSWORD` | `admin` |
+| `REPO_URL` | `https://github.com/Esteban528/TareaIntegracionContinua.git` |
